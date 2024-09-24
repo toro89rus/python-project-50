@@ -38,6 +38,4 @@ package-uninstall-pipx:
 	pipx uninstall hexlet-code
 
 package-update-venv:
-	python3 -m pip uninstall hexlet-code
-	poetry build
-	python3 -m pip install dist/*.whl
+	python3 -m pip install --force-reinstall dist/*.whl
