@@ -1,20 +1,16 @@
 import itertools
-import json
-
-
-def parse_json(filename):
-    data = json.load(open(filename))
-    return data
+from gendiff.parser import parse_file
 
 
 def generate_diff(filepath1, filepath2):
-    file1 = parse_json(filepath1)
-    file2 = parse_json(filepath2)
+    file1 = parse_file(filepath1)
+    file2 = parse_file(filepath2)
     diff = define_diff(file1, file2)
     formated_diff = format_diff(diff, file1, file2)
     return formated_diff
 
 
+# refactor!
 def define_diff(file1, file2):
     set_1 = set(file1)
     set_2 = set(file2)
@@ -37,18 +33,18 @@ def define_diff(file1, file2):
 
 def format_diff(diff, file1, file2):
     lines = []
-    for key, values in diff.items():
-        for value in values:
-            match key:
+    for status, keys in diff.items():
+        for key in keys:
+            match status:
                 case "added":
-                    lines.append(format_line(value, file2[value], "+"))
+                    lines.append(format_line(key, file2[key], "+"))
                 case "removed":
-                    lines.append(format_line(value, file1[value], "-"))
+                    lines.append(format_line(key, file1[key], "-"))
                 case "unchanged":
-                    lines.append(format_line(value, file1[value]))
+                    lines.append(format_line(key, file1[key]))
                 case "changed":
-                    lines.append(format_line(value, file1[value], "-"))
-                    lines.append(format_line(value, file2[value], "+"))
+                    lines.append(format_line(key, file1[key], "-"))
+                    lines.append(format_line(key, file2[key], "+"))
     lines.sort(key=lambda x: x[4])
     result = itertools.chain("{", lines, "}")
     return "\n".join(result)
