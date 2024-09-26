@@ -5,10 +5,11 @@ from gendiff import generate_diff
 
 def test_define_diff():
     expected = {
-        "changed": {"timeout"},
-        "unchanged": {"host"},
-        "added": {"verbose"},
-        "removed": {"follow", "proxy"},
+        "host": "unchanged",
+        "timeout": "changed",
+        "proxy": "removed",
+        "follow": "removed",
+        "verbose": "added",
     }
     # test JSON files
     file1 = parser.parse_file("tests/fixtures/flat1.json")
@@ -43,9 +44,7 @@ def test_generate_flat_diff_json():
     result_file = "tests/fixtures/result_flat_diff.txt"
 
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip(
-            "\n"
-        )
+        assert generate_diff(file1, file2) == result.read().strip("\n")
 
 
 def test_generate_flat_diff_yaml():
@@ -54,9 +53,7 @@ def test_generate_flat_diff_yaml():
     result_file = "tests/fixtures/result_flat_diff.txt"
 
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip(
-            "\n"
-        )
+        assert generate_diff(file1, file2) == result.read().strip("\n")
 
 
 def test_generate_flat_diff_json_yaml():

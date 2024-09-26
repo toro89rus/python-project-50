@@ -1,4 +1,5 @@
 import itertools
+
 from gendiff.parser import parse_file
 
 
@@ -10,41 +11,34 @@ def generate_diff(filepath1, filepath2):
     return formated_diff
 
 
-# refactor!
 def define_diff(file1, file2):
-    set_1 = set(file1)
-    set_2 = set(file2)
-
-    result = {
-        "kept": set_1 & set_2,
-        "added": set_2 - set_1,
-        "removed": set_1 - set_2,
-    }
-    result["changed"] = set()
-    result["unchanged"] = set()
-    for kept_string in result["kept"]:
-        if file1[kept_string] == file2[kept_string]:
-            result["unchanged"].add(kept_string)
+    keys = file1 | file2
+    result = {}
+    for key in keys:
+        if key not in file2:
+            result[key] = "removed"
+        elif key not in file1:
+            result[key] = "added"
+        elif file1[key] == file2[key]:
+            result[key] = "unchanged"
         else:
-            result["changed"].add(kept_string)
-    result.pop("kept")
+            result[key] = "changed"
     return result
 
 
 def format_diff(diff, file1, file2):
     lines = []
-    for status, keys in diff.items():
-        for key in keys:
-            match status:
-                case "added":
-                    lines.append(format_line(key, file2[key], "+"))
-                case "removed":
-                    lines.append(format_line(key, file1[key], "-"))
-                case "unchanged":
-                    lines.append(format_line(key, file1[key]))
-                case "changed":
-                    lines.append(format_line(key, file1[key], "-"))
-                    lines.append(format_line(key, file2[key], "+"))
+    for key, status in diff.items():
+        match status:
+            case "added":
+                lines.append(format_line(key, file2[key], "+"))
+            case "removed":
+                lines.append(format_line(key, file1[key], "-"))
+            case "unchanged":
+                lines.append(format_line(key, file1[key]))
+            case "changed":
+                lines.append(format_line(key, file1[key], "-"))
+                lines.append(format_line(key, file2[key], "+"))
     lines.sort(key=lambda x: x[4])
     result = itertools.chain("{", lines, "}")
     return "\n".join(result)
