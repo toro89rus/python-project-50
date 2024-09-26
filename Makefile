@@ -7,7 +7,7 @@ test:
 cov:
 	poetry run pytest --cov=gendiff --cov-report xml
 
-print cov:
+print-cov:
 	poetry run pytest --cov=gendiff --cov-report term-missing
 
 gendiff:
