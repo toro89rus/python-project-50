@@ -31,10 +31,6 @@ package-install-pipx:
 lint:
 	poetry run flake8 gendiff
 
-cognitive:
-	poetry run complexipy gendiff
-	poetry run flake8 --max-cognitive-complexity=5 gendiff
-
 package-uninstall:
 	python3 -m pip uninstall --user hexlet-code
 
