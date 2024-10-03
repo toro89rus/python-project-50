@@ -2,7 +2,7 @@ def format_value(value):
     if isinstance(value, dict):
         result = "[complex value]"
     elif type(value) is bool:
-        result =  str(value).lower()
+        result = str(value).lower()
     elif isinstance(value, int):
         result = str(value)
     elif value is None:
