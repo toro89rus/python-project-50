@@ -1,9 +1,3 @@
-from gendiff.parser import parse_file
-
-file1 = parse_file("tests/fixtures/flat1.json")
-file2 = parse_file("tests/fixtures/flat2.json")
-
-
 def format_value(value):
     if isinstance(value, dict):
         return "[complex value]"
