@@ -1,5 +1,5 @@
 from gendiff.parser import parse_file
-from gendiff.formatters import stylish
+from gendiff.formatters import stylish, plain
 
 
 def generate_diff(filepath1, filepath2, format="stylish"):
@@ -9,6 +9,8 @@ def generate_diff(filepath1, filepath2, format="stylish"):
     match format:
         case "stylish":
             formated_diff = stylish.format_diff(diff)
+        case "plain":
+            formated_diff = plain.format_diff(diff)
     return formated_diff
 
 
