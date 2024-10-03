@@ -1,9 +1,10 @@
-import yaml
 import json
+
+import yaml
 
 
 def parse_file(filename):
-    if filename.endswith('.json'):
+    if filename.endswith(".json"):
         data = parse_json(filename)
     elif filename.endswith((".yaml", ".yml")):
         data = parse_yaml(filename)
