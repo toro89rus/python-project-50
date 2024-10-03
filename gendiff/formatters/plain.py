@@ -1,13 +1,15 @@
 def format_value(value):
     if isinstance(value, dict):
-        return "[complex value]"
-    if type(value) is bool:
-        return str(value).lower()
-    if isinstance(value, int):
-        return str(value)
-    if value is None:
-        return "null"
-    return f"'{value}'"
+        result = "[complex value]"
+    elif type(value) is bool:
+        result =  str(value).lower()
+    elif isinstance(value, int):
+        result = str(value)
+    elif value is None:
+        result = "null"
+    else:
+        result = f"'{value}'"
+    return result
 
 
 def format_line(path, value, status):
