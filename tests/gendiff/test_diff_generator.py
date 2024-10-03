@@ -1,3 +1,5 @@
+import json
+
 import gendiff.diff_generator as diff_generator
 import gendiff.parser as parser
 from gendiff import generate_diff
@@ -75,3 +77,13 @@ def test_generate_nested_diff_json_stylish():
 
     with open(result_file) as result:
         assert generate_diff(file1, file2) == result.read().strip("\n")
+
+
+def test_generate_nested_diff_json_json():
+    file1 = "tests/fixtures/nested1.json"
+    file2 = "tests/fixtures/nested2.json"
+    result_file = "tests/fixtures/result_nested_diff_json.json"
+    with open(result_file) as result:
+        assert json.loads(generate_diff(file1, file2, "json")) == json.loads(
+            result.read()
+        )
