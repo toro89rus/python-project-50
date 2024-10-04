@@ -24,12 +24,6 @@ def format_value(value, depth):
         lines = []
         depth += 1
         for key, nested_value in value.items():
-            # if space for  non-existing values is not needed ->
-            # add check if format_value(nested_value, depth) is None ->
-            # lines.append( ->
-            # f"{indent}{STATIC}{key}:}" ->
-            # ) ->
-            # continue
             indent, closing_indent = get_indents(depth)
             lines.append(
                 f"{indent}{STATIC}{key}: {format_value(nested_value, depth)}"

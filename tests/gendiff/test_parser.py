@@ -15,7 +15,6 @@ def test_parse_json():
 
 def test_parse_yaml():
     yaml_file = "tests/fixtures/flat/flat1.yaml"
-    # test equality of parsing yaml and yml files
     yml_file = "tests/fixtures/flat/flat1.yml"
     assert parser.parse_yaml(yaml_file) == expected
     assert parser.parse_yaml(yml_file) == expected
