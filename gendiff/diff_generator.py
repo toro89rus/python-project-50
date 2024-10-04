@@ -1,22 +1,22 @@
+from gendiff.formatters import json_format, plain, stylish
 from gendiff.parser import parse_file
-from gendiff.formatters import stylish, plain, json
 
 
-def generate_diff(filepath1, filepath2, format="stylish"):
+def generate_formatted_diff(filepath1, filepath2, format="stylish"):
     file1 = parse_file(filepath1)
     file2 = parse_file(filepath2)
-    diff = define_diff(file1, file2)
+    diff = build_diff_tree(file1, file2)
     match format:
         case "stylish":
             formated_diff = stylish.format_diff(diff)
         case "plain":
             formated_diff = plain.format_diff(diff)
         case "json":
-            formated_diff = json.format_diff(diff)
+            formated_diff = json_format.format_diff(diff)
     return formated_diff
 
 
-def define_diff(tree1, tree2):
+def build_diff_tree(tree1, tree2):
     result = {}
     keys = sorted(tree1 | tree2)
     for key in keys:
@@ -29,7 +29,7 @@ def define_diff(tree1, tree2):
         elif isinstance(tree1[key], dict) and isinstance(tree2[key], dict):
             result[key] = {
                 "status": "nested",
-                "value": define_diff(tree1[key], tree2[key]),
+                "value": build_diff_tree(tree1[key], tree2[key]),
             }
         else:
             result[key] = {

@@ -16,11 +16,11 @@ def get_indents(depth, separator=INDENT_SYMBOL):
 
 
 def format_value(value, depth):
-    if type(value) is bool:
+    if isinstance(value, bool):
         return str(value).lower()
     if value is None:
         return "null"
-    if type(value) is dict:
+    if isinstance(value, dict):
         lines = []
         depth += 1
         for key, nested_value in value.items():
