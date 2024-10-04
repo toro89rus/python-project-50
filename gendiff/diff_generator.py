@@ -3,9 +3,9 @@ from gendiff.parser import parse_file
 
 
 def generate_diff(filepath1, filepath2, format="stylish"):
-    file1 = parse_file(filepath1)
-    file2 = parse_file(filepath2)
-    diff = build_diff_tree(file1, file2)
+    dict1 = parse_file(filepath1)
+    dict2 = parse_file(filepath2)
+    diff = build_diff_tree(dict1, dict2)
     match format:
         case "stylish":
             formated_diff = stylish.format_diff(diff)
@@ -13,6 +13,8 @@ def generate_diff(filepath1, filepath2, format="stylish"):
             formated_diff = plain.format_diff(diff)
         case "json":
             formated_diff = json_format.format_diff(diff)
+        case _:
+            return "Unsopported format. Please choose stylish, plain or json"
     return formated_diff
 
 
