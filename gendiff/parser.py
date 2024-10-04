@@ -12,10 +12,12 @@ def parse_file(filename):
 
 
 def parse_json(filename):
-    data = json.load(open(filename))
+    with open(filename) as file:
+        data = json.load(file)
     return data
 
 
 def parse_yaml(filename):
-    data = yaml.load(open(filename), Loader=yaml.Loader)
+    with open(filename) as file:
+        data = yaml.load(file, Loader=yaml.Loader)
     return data
