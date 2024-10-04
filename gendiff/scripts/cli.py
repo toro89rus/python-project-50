@@ -12,7 +12,10 @@ def main():
     parser.add_argument("first_file", type=argparse.FileType("r"))
     parser.add_argument("second_file", type=argparse.FileType("r"))
     parser.add_argument(
-        "-f", "--format", help="set format of output", default="stylish"
+        "-f",
+        "--format",
+        help="set format of output: stylish(default), plain, json",
+        default="stylish",
     )
     args = parser.parse_args()
     file1, file2 = args.first_file.name, args.second_file.name
