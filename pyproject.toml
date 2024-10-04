@@ -10,7 +10,7 @@ packages = [
 classifiers = [
 	"Development Status :: 4 - Beta",
 	"Intended Audience :: Developers",
-    "Environment :: Console"
+    "Environment :: Console",
 	"Natural Language :: English",
 	"Programming Language :: Python :: 3.12",
     "File Formats :: JSON",
