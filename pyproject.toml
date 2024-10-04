@@ -1,12 +1,23 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "Command-line app to find a difference between two JSON/YAML files"
 authors = ["toro <timofey89rus@gmail.com>"]
 readme = "README.md"
 packages = [
     {include = "gendiff"},
 ]
+classifiers = [
+	"Development Status :: 4 - Beta",
+	"Intended Audience :: Developers",
+    "Environment :: Console"
+	"Natural Language :: English",
+	"Programming Language :: Python :: 3.12",
+    "File Formats :: JSON",
+    "File Formats :: JSON :: JSON Schema"
+]
+
+repository = "https://github.com/toro89rus/python-project-50"
 
 [tool.poetry.dependencies]
 python = "^3.12"
