@@ -40,7 +40,7 @@
                             "wow": {
                                 "status": "changed",
                                 "value": [
-                                    "",
+                                    0,
                                     "so much"
                                 ]
                             }

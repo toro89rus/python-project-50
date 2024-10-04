@@ -1,88 +1,133 @@
 import json
 
-import gendiff.diff_generator as diff_generator
-import gendiff.parser as parser
-from gendiff import generate_diff
+import pytest
+
+from gendiff import generate_formatted_diff
+
+test_flat_stylish = [
+    (
+        "tests/fixtures/flat/flat1.json",
+        "tests/fixtures/flat/flat2.json",
+        "tests/fixtures/result/result_flat_stylish.txt",
+    ),
+    (
+        "tests/fixtures/flat/flat1.yaml",
+        "tests/fixtures/flat/flat2.yaml",
+        "tests/fixtures/result/result_flat_stylish.txt",
+    ),
+]
 
 
-def test_define_diff():
-    expected = {
-        "follow": {"status": "removed", "value": False},
-        "host": {"status": "unchanged", "value": "hexlet.io"},
-        "proxy": {"status": "removed", "value": "123.234.53.22"},
-        "timeout": {"status": "changed", "value": (50, 20)},
-        "verbose": {"status": "added", "value": True},
-    }
-    # test JSON files
-    file1 = parser.parse_file("tests/fixtures/flat1.json")
-    file2 = parser.parse_file("tests/fixtures/flat2.json")
+test_flat_plain = [
+    (
+        "tests/fixtures/flat/flat1.json",
+        "tests/fixtures/flat/flat2.json",
+        "tests/fixtures/result/result_flat_plain.txt",
+    ),
+    (
+        "tests/fixtures/flat/flat1.yaml",
+        "tests/fixtures/flat/flat2.yaml",
+        "tests/fixtures/result/result_flat_plain.txt",
+    ),
+]
 
-    assert diff_generator.define_diff(file1, file2) == expected
+test_flat_json = [
+    (
+        "tests/fixtures/flat/flat1.json",
+        "tests/fixtures/flat/flat2.json",
+        "tests/fixtures/result/result_flat_json.json",
+    ),
+    (
+        "tests/fixtures/flat/flat1.yaml",
+        "tests/fixtures/flat/flat2.yaml",
+        "tests/fixtures/result/result_flat_json.json",
+    ),
+]
 
-    # test YAML files
-    file1 = parser.parse_file("tests/fixtures/flat1.yaml")
-    file2 = parser.parse_file("tests/fixtures/flat2.yaml")
-    assert diff_generator.define_diff(file1, file2) == expected
+test_nested_stylish = [
+    (
+        "tests/fixtures/nested/nested1.json",
+        "tests/fixtures/nested/nested2.json",
+        "tests/fixtures/result/result_nested_stylish.txt",
+    ),
+    (
+        "tests/fixtures/nested/nested1.yaml",
+        "tests/fixtures/nested/nested2.yaml",
+        "tests/fixtures/result/result_nested_stylish.txt",
+    ),
+]
+
+test_nested_plain = [
+    (
+        "tests/fixtures/nested/nested1.json",
+        "tests/fixtures/nested/nested2.json",
+        "tests/fixtures/result/result_nested_plain.txt",
+    ),
+    (
+        "tests/fixtures/nested/nested1.yaml",
+        "tests/fixtures/nested/nested2.yaml",
+        "tests/fixtures/result/result_nested_plain.txt",
+    ),
+]
 
 
-def test_generate_flat_diff_json():
-    file1 = "tests/fixtures/flat1.json"
-    file2 = "tests/fixtures/flat2.json"
-    result_file = "tests/fixtures/result_flat_diff_stylish.txt"
+test_nested_json = [
+    (
+        "tests/fixtures/nested/nested1.json",
+        "tests/fixtures/nested/nested2.json",
+        "tests/fixtures/result/result_nested_json.json",
+    ),
+    (
+        "tests/fixtures/nested/nested1.yaml",
+        "tests/fixtures/nested/nested2.yaml",
+        "tests/fixtures/result/result_nested_json.json",
+    ),
+]
+
+
+@pytest.mark.parametrize("file1, file2, result_file", test_flat_stylish)
+def test_generate_diff_flat_stylish(file1, file2, result_file):
+    formatted_diff = generate_formatted_diff(file1, file2)
     with open(result_file) as result:
         expected = result.read().strip("\n")
-    assert generate_diff(file1, file2, "stylish") == expected
+    assert formatted_diff == expected, "Flat stylish test failed"
 
 
-def test_generate_flat_diff_yaml():
-    file1 = "tests/fixtures/flat1.yaml"
-    file2 = "tests/fixtures/flat2.yaml"
-    result_file = "tests/fixtures/result_flat_diff_stylish.txt"
+@pytest.mark.parametrize("file1, file2, result_file", test_flat_plain)
+def test_generate_diff_flat_plain(file1, file2, result_file):
+    formatted_diff = generate_formatted_diff(file1, file2, "plain")
     with open(result_file) as result:
         expected = result.read().strip("\n")
-    assert generate_diff(file1, file2, "stylish") == expected
+    assert formatted_diff == expected, "Flat plain test failed"
 
 
-def test_generate_flat_diff_json_yaml():
-    file1 = "tests/fixtures/flat1.json"
-    file2 = "tests/fixtures/flat2.yaml"
-    result_file = "tests/fixtures/result_flat_diff_stylish.txt"
-    with open(result_file) as result:
-        expected = result.read().strip("\n")
-    assert generate_diff(file1, file2, "stylish") == expected
-
-
-def test_generate_nested_diff_json():
-    file1 = "tests/fixtures/nested1.json"
-    file2 = "tests/fixtures/nested2.json"
-    result_file = "tests/fixtures/result_nested_diff_stylish.txt"
-    with open(result_file) as result:
-        expected = result.read().strip("\n")
-    assert generate_diff(file1, file2, "stylish") == expected
-
-
-def test_generate_nested_diff_yaml_plain():
-    file1 = "tests/fixtures/nested1.yaml"
-    file2 = "tests/fixtures/nested2.yaml"
-    result_file = "tests/fixtures/result_nested_diff_plain.txt"
-    with open(result_file) as result:
-        expected = result.read().strip("\n")
-    assert generate_diff(file1, file2, "plain") == expected
-
-
-def test_generate_nested_diff_json_stylish():
-    file1 = "tests/fixtures/nested1.json"
-    file2 = "tests/fixtures/nested2.json"
-    result_file = "tests/fixtures/result_nested_diff_stylish.txt"
-    with open(result_file) as result:
-        expected = result.read().strip("\n")
-    assert generate_diff(file1, file2, "stylish") == expected
-
-
-def test_generate_nested_diff_json_json():
-    file1 = "tests/fixtures/nested1.json"
-    file2 = "tests/fixtures/nested2.json"
-    result_file = "tests/fixtures/result_nested_diff_json.json"
+@pytest.mark.parametrize("file1, file2, result_file", test_flat_json)
+def test_generate_diff_flat_json(file1, file2, result_file):
+    formatted_diff = json.loads(generate_formatted_diff(file1, file2, "json"))
     with open(result_file) as result:
         expected = json.loads(result.read())
-    assert json.loads(generate_diff(file1, file2, "json")) == expected
+    assert formatted_diff == expected, "Flat json test failed"
+
+
+@pytest.mark.parametrize("file1, file2, result_file", test_nested_stylish)
+def test_generate_diff_nested_stylish(file1, file2, result_file):
+    formatted_diff = generate_formatted_diff(file1, file2)
+    with open(result_file) as result:
+        expected = result.read().strip("\n")
+    assert formatted_diff == expected, "Nested stylish test failed"
+
+
+@pytest.mark.parametrize("file1, file2, result_file", test_nested_plain)
+def test_generate_diff_nested_plain(file1, file2, result_file):
+    formatted_diff = generate_formatted_diff(file1, file2, "plain")
+    with open(result_file) as result:
+        expected = result.read().strip("\n")
+    assert formatted_diff == expected, "Nested plain test failed"
+
+
+@pytest.mark.parametrize("file1, file2, result_file", test_nested_json)
+def test_generate_diff_nested_json(file1, file2, result_file):
+    formatted_diff = json.loads(generate_formatted_diff(file1, file2, "json"))
+    with open(result_file) as result:
+        expected = json.loads(result.read())
+    assert formatted_diff == expected, "Nested json test failed"
