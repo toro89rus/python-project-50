@@ -1,9 +1,9 @@
 def format_value(value):
     if isinstance(value, dict):
         result = "[complex value]"
-    elif type(value) is bool:
+    elif isinstance(value, bool):
         result = str(value).lower()
-    elif value == 0:
+    elif isinstance(value, int):
         result = value
     elif value is None:
         result = "null"
