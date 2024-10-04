@@ -105,7 +105,7 @@ def test_generate_diff_flat_plain(file1, file2, result_file):
 def test_generate_diff_flat_json(file1, file2, result_file):
     formatted_diff = json.loads(generate_diff(file1, file2, "json"))
     with open(result_file) as result:
-        expected = json.loads(result.read())
+        expected = json.load(result)
     assert formatted_diff == expected, "Flat json test failed"
 
 
@@ -129,5 +129,5 @@ def test_generate_diff_nested_plain(file1, file2, result_file):
 def test_generate_diff_nested_json(file1, file2, result_file):
     formatted_diff = json.loads(generate_diff(file1, file2, "json"))
     with open(result_file) as result:
-        expected = json.loads(result.read())
+        expected = json.load(result)
     assert formatted_diff == expected, "Nested json test failed"
