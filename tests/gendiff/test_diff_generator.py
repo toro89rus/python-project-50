@@ -22,61 +22,61 @@ def test_define_diff():
     # test YAML files
     file1 = parser.parse_file("tests/fixtures/flat1.yaml")
     file2 = parser.parse_file("tests/fixtures/flat2.yaml")
-    assert diff_generator.define_diff(file1, file2)
+    assert diff_generator.define_diff(file1, file2) == expected
 
 
 def test_generate_flat_diff_json():
     file1 = "tests/fixtures/flat1.json"
     file2 = "tests/fixtures/flat2.json"
     result_file = "tests/fixtures/result_flat_diff_stylish.txt"
-
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip("\n")
+        expected = result.read().strip("\n")
+    assert generate_diff(file1, file2, "stylish") == expected
 
 
 def test_generate_flat_diff_yaml():
     file1 = "tests/fixtures/flat1.yaml"
     file2 = "tests/fixtures/flat2.yaml"
     result_file = "tests/fixtures/result_flat_diff_stylish.txt"
-
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip("\n")
+        expected = result.read().strip("\n")
+    assert generate_diff(file1, file2, "stylish") == expected
 
 
 def test_generate_flat_diff_json_yaml():
     file1 = "tests/fixtures/flat1.json"
     file2 = "tests/fixtures/flat2.yaml"
     result_file = "tests/fixtures/result_flat_diff_stylish.txt"
-
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip("\n")
+        expected = result.read().strip("\n")
+    assert generate_diff(file1, file2, "stylish") == expected
 
 
 def test_generate_nested_diff_json():
     file1 = "tests/fixtures/nested1.json"
     file2 = "tests/fixtures/nested2.json"
     result_file = "tests/fixtures/result_nested_diff_stylish.txt"
-
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip("\n")
+        expected = result.read().strip("\n")
+    assert generate_diff(file1, file2, "stylish") == expected
 
 
 def test_generate_nested_diff_yaml_plain():
     file1 = "tests/fixtures/nested1.yaml"
     file2 = "tests/fixtures/nested2.yaml"
     result_file = "tests/fixtures/result_nested_diff_plain.txt"
-
     with open(result_file) as result:
-        assert generate_diff(file1, file2, "plain") == result.read().strip("\n")
+        expected = result.read().strip("\n")
+    assert generate_diff(file1, file2, "plain") == expected
 
 
 def test_generate_nested_diff_json_stylish():
     file1 = "tests/fixtures/nested1.json"
     file2 = "tests/fixtures/nested2.json"
     result_file = "tests/fixtures/result_nested_diff_stylish.txt"
-
     with open(result_file) as result:
-        assert generate_diff(file1, file2) == result.read().strip("\n")
+        expected = result.read().strip("\n")
+    assert generate_diff(file1, file2, "stylish") == expected
 
 
 def test_generate_nested_diff_json_json():
@@ -84,6 +84,5 @@ def test_generate_nested_diff_json_json():
     file2 = "tests/fixtures/nested2.json"
     result_file = "tests/fixtures/result_nested_diff_json.json"
     with open(result_file) as result:
-        assert json.loads(generate_diff(file1, file2, "json")) == json.loads(
-            result.read()
-        )
+        expected = json.loads(result.read())
+    assert json.loads(generate_diff(file1, file2, "json")) == expected
