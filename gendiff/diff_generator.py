@@ -2,7 +2,7 @@ from gendiff.parser import parse_file
 from gendiff.formatters import stylish, plain, json
 
 
-def generate_diff(filepath1, filepath2, format="stylish"):
+def generate_diff(filepath1, filepath2, format):
     file1 = parse_file(filepath1)
     file2 = parse_file(filepath2)
     diff = define_diff(file1, file2)
