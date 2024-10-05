@@ -1,10 +1,10 @@
 from gendiff.formatters.format_selector import format_diff
-from gendiff.parser import parse_file
+from gendiff.parser import parse_content
 
 
 def generate_diff(filepath1, filepath2, format="stylish"):
-    dict1 = parse_file(filepath1)
-    dict2 = parse_file(filepath2)
+    dict1 = parse_content(filepath1)
+    dict2 = parse_content(filepath2)
     diff = build_diff_tree(dict1, dict2)
     formated_diff = format_diff(diff, format)
     return formated_diff
