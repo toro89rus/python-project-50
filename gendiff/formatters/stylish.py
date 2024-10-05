@@ -1,8 +1,9 @@
 import itertools
 
-NEW = "+ "
-OLD = "- "
-STATIC = "  "
+ADDED_PREFIX = "+ "
+REMOVED_PREFIX = "- "
+UNCHANGED_PREFIX = "  "
+NESTED_PREFIX = "  "
 INDENT_SIZE = 4
 INDENT_SYMBOL = " "
 
@@ -25,9 +26,9 @@ def format_value(value, depth):
         depth += 1
         for key, nested_value in value.items():
             indent, closing_indent = get_indents(depth)
-            lines.append(
-                f"{indent}{STATIC}{key}: {format_value(nested_value, depth)}"
-            )
+            line = (f"{indent}{NESTED_PREFIX}{key}: "
+                    f"{format_value(nested_value, depth)}")
+            lines.append(line)
         result = itertools.chain("{", lines, [closing_indent + "}"])
         return "\n".join(result)
     return value
@@ -43,29 +44,29 @@ def format_diff(diff):
             value = child["value"]
             match status:
                 case "nested":
-                    lines.append(
-                        f"{indent}{STATIC}{key}: {walk(value, depth + 1)}"
-                    )
+                    nested_line = (f"{indent}{NESTED_PREFIX}{key}: "
+                                   f"{walk(value, depth + 1)}")
+                    lines.append(nested_line)
                 case "removed":
-                    lines.append(
-                        f"{indent}{OLD}{key}: {format_value(value, depth)}"
-                    )
+                    removed_line = (f"{indent}{REMOVED_PREFIX}{key}: "
+                                    f"{format_value(value, depth)}")
+                    lines.append(removed_line)
                 case "added":
-                    lines.append(
-                        f"{indent}{NEW}{key}: {format_value(value, depth)}"
-                    )
+                    added_line = (f"{indent}{ADDED_PREFIX}{key}: "
+                                  f"{format_value(value, depth)}")
+                    lines.append(added_line)
                 case "changed":
-                    old, new = value
-                    lines.append(
-                        f"{indent}{OLD}{key}: {format_value(old, depth)}"
-                    )
-                    lines.append(
-                        f"{indent}{NEW}{key}: {format_value(new, depth)}"
-                    )
+                    old_value, new_value = value
+                    old_line = (f"{indent}{REMOVED_PREFIX}{key}: "
+                                f"{format_value(old_value, depth)}")
+                    new_line = (f"{indent}{ADDED_PREFIX}{key}: "
+                                f"{format_value(new_value, depth)}")
+                    lines.append(old_line)
+                    lines.append(new_line)
                 case "unchanged":
-                    lines.append(
-                        f"{indent}{STATIC}{key}: {format_value(value, depth)}"
-                    )
+                    unchanged_line = (f"{indent}{UNCHANGED_PREFIX}{key}: "
+                                      f"{format_value(value, depth)}")
+                    lines.append(unchanged_line)
         result = itertools.chain("{", lines, [closing_indent + "}"])
         return "\n".join(result)
 
