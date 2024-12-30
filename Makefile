@@ -1,45 +1,23 @@
 install:
-	poetry install
+	uv sync
 
 test:
-	poetry run pytest
+	uv run pytest
 
 cov:
-	poetry run pytest --cov=gendiff --cov-report xml
+	uv run pytest --cov=gendiff --cov-report xml
 
 print-cov:
-	poetry run pytest --cov=gendiff --cov-report term-missing
+	uv run pytest --cov=gendiff --cov-report term-missing
 
 gendiff:
-	poetry run gendiff
+	uv run gendiff
 
 build:
-	poetry build
-
-publish:
-	poetry publish --dry-run
+	uv build
 
 package-install:
-	python3 -m pip install --user dist/*.whl
-
-package-install-venv:
-	python3 -m pip install dist/*.whl
-
-package-install-pipx:
-	pipx install dist/*.whl
-
-lint:
-	poetry run ruff check gendiff
+	uv tool install dist/*.whl
 
 package-uninstall:
-	python3 -m pip uninstall --user hexlet-code
-
-package-uninstall-venv:
-	python3 -m pip uninstall hexlet-code
-
-package-uninstall-pipx:
-	pipx uninstall hexlet-code
-
-package-update-venv:
-	make build
-	python3 -m pip install --force-reinstall dist/*.whl
+	uv tool uninstall hexlet-code
