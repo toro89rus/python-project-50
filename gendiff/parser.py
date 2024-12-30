@@ -1,10 +1,7 @@
 import json
+import pathlib
 
 import yaml
-
-import os.path
-
-import pathlib
 
 
 def get_file_extension(filepath):

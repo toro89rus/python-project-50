@@ -30,6 +30,7 @@ gendiff = "gendiff.scripts.cli:main"
 flake8 = "^7.1.1"
 pytest-cov = "^5.0.0"
 pytest = "^8.3.3"
+ruff = "^0.8.4"
 
 [build-system]
 requires = ["poetry-core"]

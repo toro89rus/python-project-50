@@ -29,7 +29,7 @@ package-install-pipx:
 	pipx install dist/*.whl
 
 lint:
-	poetry run flake8 gendiff
+	poetry run ruff check gendiff
 
 package-uninstall:
 	python3 -m pip uninstall --user hexlet-code

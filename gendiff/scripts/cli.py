@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-from gendiff.cli_parser import get_args
-
 from gendiff import generate_diff
+from gendiff.cli_parser import get_args
 
 
 def main():
