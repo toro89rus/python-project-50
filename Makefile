@@ -3,7 +3,8 @@ install:
 
 test:
 	uv run pytest
-
+lint:
+	uv run ruff check gendiff
 cov:
 	uv run pytest --cov=gendiff --cov-report xml
 
